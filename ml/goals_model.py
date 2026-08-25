@@ -1,31 +1,31 @@
-"""
-Goals market model: Over/Under 2.5 and Both Teams To Score (BTTS).
+# """
+# Goals market model: Over/Under 2.5 and Both Teams To Score (BTTS).
 
-Approach: independent Poisson model for home/away expected goals (lambda),
-derived from each team's rolling attack/defense rates adjusted by a league-
-average baseline (standard "attack strength x opponent defense weakness x
-league average" method used in Dixon-Coles style models). From the two
-Poisson lambdas we compute the full scoreline probability matrix, then sum
-over it for Over/Under 2.5 and BTTS probabilities. This is more principled
-than training a separate classifier per market on a dataset this size,
-and it stays consistent with the 1X2 model's Elo/form inputs.
+# Approach: independent Poisson model for home/away expected goals (lambda),
+# derived from each team's rolling attack/defense rates adjusted by a league-
+# average baseline (standard "attack strength x opponent defense weakness x
+# league average" method used in Dixon-Coles style models). From the two
+# Poisson lambdas we compute the full scoreline probability matrix, then sum
+# over it for Over/Under 2.5 and BTTS probabilities. This is more principled
+# than training a separate classifier per market on a dataset this size,
+# and it stays consistent with the 1X2 model's Elo/form inputs.
 
-Validated the same way as the 1X2 model: time-based split, log loss,
-Brier score, and accuracy against actual Over/Under and BTTS outcomes.
+# Validated the same way as the 1X2 model: time-based split, log loss,
+# Brier score, and accuracy against actual Over/Under and BTTS outcomes.
 
-Includes shrinkage toward league-average scoring rates (see
-expected_goals() docstring) — added after finding a real case where a
-team's 6-match rolling window happened to contain an extreme outlier
-(a very low goals-conceded rate) and produced an overconfident,
-implausible expected-goals estimate for their opponent. Shrinkage measurably
-improved log loss and Brier score on the same held-out test set. A
-further improvement not yet implemented: the shrinkage strength currently
-assumes a full 6-match sample for every team; dynamically passing each
-team's ACTUAL match count (fewer early in a season, or for a team new to
-a league) would shrink correctly. See expected_goals()'s
-sample_size parameters, which predict_goals_markets() does not yet
-supply — currently defaults to 6.
-"""
+# Includes shrinkage toward league-average scoring rates (see
+# expected_goals() docstring) — added after finding a real case where a
+# team's 6-match rolling window happened to contain an extreme outlier
+# (a very low goals-conceded rate) and produced an overconfident,
+# implausible expected-goals estimate for their opponent. Shrinkage measurably
+# improved log loss and Brier score on the same held-out test set. A
+# further improvement not yet implemented: the shrinkage strength currently
+# assumes a full 6-match sample for every team; dynamically passing each
+# team's ACTUAL match count (fewer early in a season, or for a team new to
+# a league) would shrink correctly. See expected_goals()'s
+# sample_size parameters, which predict_goals_markets() does not yet
+# supply — currently defaults to 6.
+# """
 from __future__ import annotations
 import numpy as np
 import pandas as pd
