@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "./theme-context";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "Fulltime — Football Match Intelligence",
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="floodlight" />
           <div className="relative z-10">{children}</div>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
