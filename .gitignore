@@ -1,0 +1,11 @@
+node_modules/
+.next/
+*.tsbuildinfo
+__pycache__/
+*.pyc
+.env.local
+.env
+.DS_Store
+/data/raw/*.json
+/data/league_selection.json
+/data/provider_selection.json
