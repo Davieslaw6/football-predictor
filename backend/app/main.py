@@ -52,7 +52,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # tighten in production to your frontend's actual origin
+    allow_origins=["https://football-predictor-lime.vercel.app/"],  # tighten in production to your frontend's actual origin
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
